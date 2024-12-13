@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+  <ActionBar title="Music Player" class="bg-purple-600 text-white">
+    <NavigationButton visibility="collapsed" />
+  </ActionBar>
+
+  <GridLayout rows="*, auto" class="bg-gray-900">
+    <!-- Album Art and Song Info -->
+    <StackLayout row="0" class="p-4">
+      <Image src="{{ currentSong.albumArt }}" class="h-64 w-64 rounded-lg mx-auto mb-4" />
+      
+      <Label text="{{ currentSong.title }}" class="text-2xl font-bold text-white text-center" />
+      <Label text="{{ currentSong.artist }}" class="text-lg text-gray-400 text-center" />
+      
+      <!-- Progress Bar -->
+      <GridLayout rows="auto, auto" class="mt-8">
+        <Slider value="{{ currentTime }}" maxValue="{{ currentSong.duration }}" 
+                minValue="0" class="slider" />
+        <GridLayout row="1" columns="auto, *, auto" class="mt-2">
+          <Label col="0" text="{{ currentTimeFormatted }}" class="text-sm text-gray-400" />
+          <Label col="2" text="{{ durationFormatted }}" class="text-sm text-gray-400" />
+        </GridLayout>
+      </GridLayout>
+
+      <!-- Controls -->
+      <GridLayout columns="auto, auto, auto" class="mt-8 justify-center items-center">
+        <Button col="0" text="&#xf048;" class="fas text-2xl text-white" tap="{{ previous }}" />
+        <Button col="1" text="{{ isPlaying ? '&#xf04c;' : '&#xf04b;' }}" 
+                class="fas text-4xl text-white mx-8" tap="{{ playPause }}" />
+        <Button col="2" text="&#xf051;" class="fas text-2xl text-white" tap="{{ next }}" />
+      </GridLayout>
+    </StackLayout>
+
+    <!-- Playlist -->
+    <GridLayout row="1" rows="auto, *" class="bg-gray-800 rounded-t-3xl p-4">
+      <Label row="0" text="Playlist" class="text-xl font-bold text-white mb-2" />
+      <ListView row="1" items="{{ playlist }}" itemTap="{{ onSongTap }}" height="200">
+        <ListView.itemTemplate>
+          <GridLayout columns="auto, *, auto" class="p-2">
+            <Image col="0" src="{{ albumArt }}" class="w-12 h-12 rounded" />
+            <StackLayout col="1" class="ml-3">
+              <Label text="{{ title }}" class="text-white" />
+              <Label text="{{ artist }}" class="text-gray-400 text-sm" />
+            </StackLayout>
+            <Label col="2" text="{{ duration }}" class="text-gray-400" />
+          </GridLayout>
+        </ListView.itemTemplate>
+      </ListView>
+    </GridLayout>
+  </GridLayout>
+</Page>
